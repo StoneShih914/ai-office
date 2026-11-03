@@ -1,0 +1,14 @@
+{
+  "updatedAt": "",
+  "agents": {
+    "Stone":  { "status": "", "bubble": "", "state": "" },
+    "小米":   { "status": "", "bubble": "", "state": "" },
+    "小R":    { "status": "", "bubble": "", "state": "" },
+    "百靈鳥": { "status": "", "bubble": "", "state": "" },
+    "寫哥":   { "status": "", "bubble": "", "state": "" },
+    "大投":   { "status": "", "bubble": "", "state": "" },
+    "財財":   { "status": "", "bubble": "", "state": "" },
+    "大E":    { "status": "", "bubble": "", "state": "" },
+    "Fellow": { "status": "", "bubble": "", "state": "" }
+  }
+}

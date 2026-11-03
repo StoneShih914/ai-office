@@ -1,5 +1,0 @@
-All bundled assets are CC0 1.0 (public domain).
-- characters/AnimationLibrary_Godot_Standard.gltf/.bin — Quaternius "Universal Animation Library" (free version), CC0. https://quaternius.com/packs/universalanimationlibrary.html via mirror https://github.com/J-Ponzo/gltf-universal-animation-library (LICENSE: UAL_LICENSE_CC0.txt)
-- furniture/*.glb — Kenney "Furniture Kit", CC0. https://kenney.nl/assets/furniture-kit via mirror https://github.com/shorepine/kenney (3d/furniture)
-- cars/*.glb + Textures/colormap.png — Kenney "Car Kit", CC0. https://kenney.nl/assets/car-kit via https://github.com/shorepine/kenney (3d/car)
-Kenney license text: KENNEY_LICENSE.txt
