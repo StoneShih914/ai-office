@@ -1,14 +1,45 @@
 {
-  "updatedAt": "",
+  "updatedAt": "2026-11-07T01:32:39+08:00",
   "agents": {
-    "Stone":  { "status": "", "bubble": "", "state": "" },
-    "小米":   { "status": "", "bubble": "", "state": "" },
-    "小R":    { "status": "", "bubble": "", "state": "" },
-    "百靈鳥": { "status": "", "bubble": "", "state": "" },
-    "寫哥":   { "status": "", "bubble": "", "state": "" },
-    "大投":   { "status": "", "bubble": "", "state": "" },
-    "財財":   { "status": "", "bubble": "", "state": "" },
-    "大E":    { "status": "", "bubble": "", "state": "" },
-    "Fellow": { "status": "", "bubble": "", "state": "" }
+    "百靈鳥": {
+      "status": "working",
+      "time": "2026-11-07T01:32:39+08:00"
+    },
+    "小R": {
+      "status": "working",
+      "time": "2026-11-07T01:32:39+08:00"
+    },
+    "寫哥": {
+      "status": "idle",
+      "time": "2026-11-07T01:32:39+08:00"
+    },
+    "大投": {
+      "status": "idle",
+      "time": "2026-11-07T01:31:30+08:00"
+    },
+    "財財": {
+      "status": "idle",
+      "time": "2026-11-07T01:31:30+08:00"
+    },
+    "大E": {
+      "status": "idle",
+      "time": "2026-11-07T01:31:30+08:00"
+    },
+    "小米": {
+      "status": "idle",
+      "time": "2026-11-07T01:31:30+08:00"
+    },
+    "Fellow": {
+      "status": "waiting",
+      "time": "2026-11-07T01:32:39+08:00"
+    },
+    "URAKAKERA": {
+      "status": "idle",
+      "time": "2026-11-07T01:32:39+08:00"
+    },
+    "dr eggbot": {
+      "status": "working",
+      "time": "2026-11-07T01:32:39+08:00"
+    }
   }
 }

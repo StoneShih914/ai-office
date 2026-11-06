@@ -1,0 +1,16 @@
+{
+  "updatedAt": "2026-11-07T01:31:00+08:00",
+  "note": "靜態表；未知項標「待填」。由秘書-小R 維護。",
+  "routines": [
+    { "bot": "百靈鳥", "name": "AI 辦公室狀態同步", "schedule": "@every 30m", "state": "已暫停", "note": "paused；結果應改送小R" },
+    { "bot": "小R", "name": "待填", "schedule": "待填", "state": "待填", "note": "待填" },
+    { "bot": "寫哥", "name": "待填", "schedule": "待填", "state": "待填", "note": "待填" },
+    { "bot": "大投", "name": "待填", "schedule": "待填", "state": "待填", "note": "待填" },
+    { "bot": "財財", "name": "待填", "schedule": "待填", "state": "待填", "note": "待填" },
+    { "bot": "大E", "name": "待填", "schedule": "待填", "state": "待填", "note": "待填" },
+    { "bot": "小米", "name": "待填", "schedule": "待填", "state": "待填", "note": "待填" },
+    { "bot": "Fellow", "name": "待填", "schedule": "待填", "state": "待填", "note": "待填" },
+    { "bot": "URAKAKERA", "name": "待填", "schedule": "待填", "state": "待填", "note": "待填" },
+    { "bot": "dr eggbot", "name": "待填", "schedule": "待填", "state": "待填", "note": "待填" }
+  ]
+}

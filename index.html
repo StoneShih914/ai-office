@@ -18,7 +18,7 @@ html,body{margin:0;height:100%;overflow:hidden;background:#05060c;font-family:"N
 #nav button{background:transparent;border:1px solid transparent;color:#dfe3ea;padding:7px 10px;border-radius:9px;white-space:nowrap;font:inherit;font-size:13px;cursor:pointer;transition:.2s}
 #nav button:hover{border-color:var(--line);background:rgba(255,255,255,.06)}
 #nav button.on{border-color:var(--cy);color:var(--cy);box-shadow:0 0 12px rgba(79,243,255,.25) inset}
-#team{top:16px;right:16px;width:250px;padding:10px 12px;font-size:12.5px}
+#team{top:16px;right:16px;width:280px;max-height:calc(100vh - 32px);overflow:auto;padding:10px 12px;font-size:12.5px}
 #team h2{font-size:12px;margin:0 0 6px;letter-spacing:.15em;opacity:.7;font-weight:500}
 .row{display:flex;align-items:center;gap:8px;padding:4px 2px;border-top:1px solid rgba(255,255,255,.06);cursor:pointer}
 .row:hover{background:rgba(255,255,255,.05)}
@@ -32,6 +32,15 @@ html,body{margin:0;height:100%;overflow:hidden;background:#05060c;font-family:"N
 .bub{position:absolute;bottom:22px;left:50%;transform:translateX(-50%);font-size:11px;color:#eef;background:rgba(20,22,34,.72);border:1px solid rgba(255,255,255,.18);padding:3px 8px;border-radius:8px;white-space:nowrap;max-width:200px;overflow:hidden;text-overflow:ellipsis;backdrop-filter:blur(6px)}
 #src{position:fixed;bottom:18px;right:16px;font-size:11px;opacity:.55}
 @media(max-width:760px){#team{display:none}#nav{flex-wrap:wrap;width:94vw;justify-content:center}}
+
+#routines{margin-top:10px;padding-top:8px;border-top:1px solid rgba(255,255,255,.08)}
+#routines h2{font-size:11px;margin:0 0 6px;letter-spacing:.12em;opacity:.65;font-weight:500}
+.rt{font-size:11px;padding:3px 0;border-top:1px solid rgba(255,255,255,.05);line-height:1.35}
+.rt .bn{font-weight:600;margin-right:4px}
+.rt .st{opacity:.55}
+.badge{font-size:10px;padding:1px 6px;border-radius:999px;border:1px solid currentColor;margin-left:4px;white-space:nowrap}
+.b-working{color:#39ff7a}.b-idle{color:#ffd23a}.b-waiting{color:#ff9f43}
+@media(max-width:760px){#routines{display:none}}
 </style>
 <script type="importmap">
 {"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}
@@ -40,7 +49,7 @@ html,body{margin:0;height:100%;overflow:hidden;background:#05060c;font-family:"N
 <body>
 <div id="app"></div>
 <div id="title" class="panel"><h1>STONE · <b>夜城</b> AI 辦公室</h1><div class="sub" id="clock">台北時間 --:--</div></div>
-<div id="team" class="panel"><h2>團隊狀態 TEAM</h2><div id="rows"></div></div>
+<div id="team" class="panel"><h2>團隊狀態 TEAM</h2><div id="rows"></div><div id="routines"><h2>ROUTINES 排程</h2><div id="rtrows"></div></div></div>
 <div id="info" class="panel"><span class="x" id="ix">✕</span><h3 id="in"></h3><div class="role" id="ir"></div><div class="kv" id="ik"></div></div>
 <div id="nav" class="panel"></div>
 <div id="src">資料來源：<span id="srcv">模擬</span></div>

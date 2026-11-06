@@ -391,6 +391,14 @@ openX.forEach((x, i) => {
 });
 // fix: front row faces +z toward monitor (rot 0); back row faces -z
 openX.forEach((x, i) => { SPOT['desk' + i].rot = 0; SPOT['desk' + (i + 3)].rot = Math.PI; });
+// extra desks for URAKAKERA + dr eggbot
+(() => {
+  const x = 0;
+  desk(x, 1.85, Math.PI); monitor(x, 0.76, 2.05, 0); chair(x, 1.2, 0); seatAt('desk6', x, 1.25, 0);
+  desk(x, 2.75, 0); monitor(x, 0.76, 2.55, Math.PI, scene, scrMats[1]); chair(x, 3.4, Math.PI); seatAt('desk7', x, 3.35, Math.PI, 'seat', [[0.3, 4.3], [x, 4.3]]);
+  box(1.5, 0.3, 0.02, M(MOR.sage, 0.9), x, 1.0, 2.3);
+})();
+
 for (let k = 0; k < 3; k++) box(1.5, 0.3, 0.02, M(MOR.sage, 0.9), openX[k], 1.0, 2.3); // privacy panels
 // plants
 function plant(x, z, s = 1) { cyl(0.22 * s, 0.17 * s, 0.45 * s, M(0xd6d0c8, 0.6), x, 0.225 * s, z); for (let i = 0; i < 9; i++) { const l = add(new THREE.SphereGeometry(0.16 * s, 8, 6), M(0x5f7a5a, 0.8), x + (rnd() - .5) * 0.35 * s, (0.6 + rnd() * 0.5) * s, z + (rnd() - .5) * 0.35 * s); l.scale.set(1, 1.6, 0.6); l.rotation.set(rnd(), rnd(), rnd()); } blob(x, z, 0.8 * s, 0.8 * s); }
@@ -559,6 +567,8 @@ const AG = [
   { key: '財財', name: '財財', role: '財務 · 帕南風', tag: '#ffa94d', desk: 'desk3', look: { skin: 0xd8a888, hair: 0x231610, hs: 'ponytail', top: 0x6b5a48, jacket: 0x6a3f26, pants: 0x3d3a40, shoes: 0x4a2e1c, female: true } },
   { key: '大E', name: '大E', role: '工程 · 傑克風', tag: '#39ff7a', desk: 'desk4', look: { skin: 0xb98563, hair: 0x1a120c, hs: 'bald', top: 0x3a3a3a, jacket: 0x8a6a2a, pants: 0x2a2f3a, shoes: 0x222, beard: true, chain: true, big: 1.15 } },
   { key: 'Fellow', name: 'Fellow', role: '功率半導體專家 · 維克多風', tag: '#a98bff', desk: 'desk5', look: { skin: 0xd2a68a, hair: 0x9a9a9a, hs: 'short', top: 0x2a3a4a, jacket: 0xd8d4c8, pants: 0x3a3a3a, shoes: 0x222, glasses: true, beard: true, grey: true } },
+  { key: 'URAKAKERA', name: 'URAKAKERA', role: '協作 · 待補', tag: '#7ec8ff', desk: 'desk6', look: { skin: 0xe0b898, hair: 0x2a1810, hs: 'short', top: 0x1a2a3a, jacket: 0x243040, pants: 0x1e2430, shoes: 0x111 } },
+  { key: 'dr eggbot', name: 'dr eggbot', role: '編排 · 待補', tag: '#ff7eb6', desk: 'desk7', look: { skin: 0xf0d0b0, hair: 0xf5e6c8, hs: 'buzz', top: 0x2a1a2a, jacket: 0x4a2040, pants: 0x2a2030, shoes: 0x222 } },
 ];
 const SIM_BUBBLES = { working: ['專注中…', '寫程式', '整理報告', '跑模型', '回覆訊息', 'GaN 元件分析', '審閱合約', '對帳中'], idle: ['☕ 喝咖啡', '休息一下', '看夜景', '想點子', '伸展'], meeting: ['開會中', '簡報', '討論大任務'] };
 // ---- Minecraft-style voxel characters: 64x64 pixel skins painted on canvas, nearest filtering ----
@@ -701,7 +711,7 @@ function applyState(ag, st) {
   if (!['working', 'idle', 'meeting'].includes(st)) st = 'working';
   const prev = ag.state; ag.state = st;
   let target = ag.spot;
-  if (st === 'working') target = ag.desk;
+  if (st === 'working' || st === 'waiting') target = ag.desk;
   else if (st === 'meeting') { target = (ag.key === 'Stone' && !occupied.has('meet6')) ? 'meet6' : (meetSeats.includes(ag.spot) ? ag.spot : freeSpot(meetSeats) || ag.desk); }
   else if (st === 'idle') target = IDLE.includes(ag.spot) ? ag.spot : (freeSpot(IDLE) || ag.desk);
   if (target !== ag.spot) planPath(ag, target);
@@ -723,7 +733,7 @@ function animate(ag, dt, t) {
   lerpA(root.position, 'x', sp.x, k * 0.5); lerpA(root.position, 'z', sp.z, k * 0.5);
   r.spine.rotation.y *= 0.9;
   if (ag.mode === 'sit') {
-    const atDesk = sp.type === 'seat' && !sp.type.includes('lounge') && ag.state === 'working';
+    const atDesk = sp.type === 'seat' && !sp.type.includes('lounge') && (ag.state === 'working' || ag.state === 'waiting');
     const lounge = sp.type === 'lounge';
     lerpA(r.hips.position, 'y', lounge ? 0.44 : 0.47, k);
     for (const s of [-1, 1]) {
@@ -758,10 +768,23 @@ async function poll() {
   try {
     const r = await fetch('./status.json?t=' + Date.now(), { cache: 'no-store' }); if (!r.ok) throw 0; const j = await r.json();
     let any = false;
-    agents.forEach(ag => { const s = j.agents && j.agents[ag.key]; if (s && s.state) { any = true; ag.live = true; ag.status = s.status || ''; ag.bubble = s.bubble || ''; if (s.state !== ag.state) applyState(ag, s.state); } else ag.live = false; });
+    agents.forEach(ag => {
+      const s = j.agents && j.agents[ag.key];
+      // public schema: { status: working|idle|waiting, time } — never task/bubble text
+      const st = s && (s.status || s.state);
+      if (s && st && ST_LABEL[st]) {
+        any = true; ag.live = true; ag.updatedAt = s.time || j.updatedAt || '';
+        // public page: badge/bubble show ONLY status label (no task)
+        ag.status = ST_LABEL[st];
+        ag.bubble = ST_LABEL[st];
+        if (st !== ag.state) applyState(ag, st);
+      } else if (ag.key !== 'Stone') {
+        ag.live = false;
+      }
+    });
     live = any; document.getElementById('srcv').textContent = any ? `status.json · ${j.updatedAt || '—'}` : '模擬（status.json 無資料）';
+    if (any) refreshUI();
   } catch { live = false; document.getElementById('srcv').textContent = '模擬（讀取失敗）'; }
-  refreshUI();
 }
 let bigTaskUntil = 0;
 function simulate(t) {
@@ -773,17 +796,17 @@ function simulate(t) {
     applyState(ag, st); refreshUI();
   });
 }
-const ST_LABEL = { working: '工作中', idle: '閒置', meeting: '開會' }, ST_COL = { working: '#39ff7a', idle: '#ffd23a', meeting: '#ff3fb4' };
+const ST_LABEL = { working: '工作中', idle: '閒置', waiting: '等 Stone 決定', meeting: '開會' }, ST_COL = { working: '#39ff7a', idle: '#ffd23a', waiting: '#ff9f43', meeting: '#ff3fb4' };
 function drawBoard() {
   const { g, c } = boardTex.userData; const w = c.width, h = c.height;
   g.fillStyle = '#0a0d16'; g.fillRect(0, 0, w, h); g.strokeStyle = '#22f3ff'; g.lineWidth = 3; g.strokeRect(8, 8, w - 16, h - 16);
   g.fillStyle = '#22f3ff'; g.font = 'bold 40px "Noto Sans TC",sans-serif'; g.fillText('團隊狀態 · TEAM STATUS', 34, 62);
   g.fillStyle = '#8890a8'; g.font = '22px sans-serif'; g.fillText(live ? 'LIVE · status.json' : 'SIMULATION', w - 250, 60);
-  agents.forEach((a, i) => { const col = i < 5 ? 0 : 1, row = i % 5; const x = 34 + col * 495, y = 120 + row * 76; g.fillStyle = 'rgba(255,255,255,.04)'; g.fillRect(x - 8, y - 38, 470, 64); g.fillStyle = ST_COL[a.state]; g.beginPath(); g.arc(x + 10, y - 6, 9, 0, 7); g.fill(); g.fillStyle = a.tag; g.font = 'bold 30px "Noto Sans TC",sans-serif'; g.fillText(a.name, x + 32, y + 4); g.fillStyle = '#cfd6e6'; g.font = '24px "Noto Sans TC",sans-serif'; g.fillText(`${ST_LABEL[a.state]} · ${(a.bubble || '').slice(0, 10)}`, x + 170, y + 2); });
+  agents.forEach((a, i) => { const col = i < 6 ? 0 : 1, row = i % 6; const x = 34 + col * 495, y = 110 + row * 68; g.fillStyle = 'rgba(255,255,255,.04)'; g.fillRect(x - 8, y - 38, 470, 64); g.fillStyle = ST_COL[a.state]; g.beginPath(); g.arc(x + 10, y - 6, 9, 0, 7); g.fill(); g.fillStyle = a.tag; g.font = 'bold 30px "Noto Sans TC",sans-serif'; g.fillText(a.name, x + 32, y + 4); g.fillStyle = '#cfd6e6'; g.font = '24px "Noto Sans TC",sans-serif'; g.fillText(`${ST_LABEL[a.state] || a.state}`, x + 170, y + 2); });
   boardTex.needsUpdate = true;
 }
 function refreshUI() {
-  document.getElementById('rows').innerHTML = agents.map((a, i) => `<div class="row" data-i="${i}"><span class="dot" style="background:${ST_COL[a.state]};box-shadow:0 0 6px ${ST_COL[a.state]}"></span><span class="n" style="color:${a.tag}">${a.name}</span><span class="s">${ST_LABEL[a.state]} · ${a.bubble || '—'}</span></div>`).join('');
+  document.getElementById('rows').innerHTML = agents.map((a, i) => `<div class="row" data-i="${i}"><span class="dot" style="background:${ST_COL[a.state]||'#888'};box-shadow:0 0 6px ${ST_COL[a.state]||'#888'}"></span><span class="n" style="color:${a.tag}">${a.name}</span><span class="s"><span class="badge b-${a.state}">${ST_LABEL[a.state]||a.state}</span></span></div>`).join('');
   document.querySelectorAll('.row').forEach(r => r.onclick = () => select(+r.dataset.i));
   agents.forEach(a => { a.bub.textContent = a.bubble || ''; a.bub.style.display = a.bubble ? '' : 'none'; });
   drawBoard(); if (selected != null) showInfo();
@@ -798,7 +821,7 @@ ZONES.forEach(([n, p, t], i) => { const b = document.createElement('button'); b.
 function goZone(i) { const [, p, t] = ZONES[i]; fly = { t0: performance.now(), p0: camera.position.clone(), q0: controls.target.clone(), p1: new THREE.Vector3(...p), q1: new THREE.Vector3(...t) }; [...nav.children].forEach((b, j) => b.classList.toggle('on', j === i)); }
 let selected = null;
 function select(i) { selected = i; showInfo(); const a = agents[i]; const p = a.rig.root.position; fly = { t0: performance.now(), p0: camera.position.clone(), q0: controls.target.clone(), p1: new THREE.Vector3(p.x + 3, 2.8, p.z + 3.5), q1: new THREE.Vector3(p.x, 1, p.z) }; }
-function showInfo() { const a = agents[selected]; const box = document.getElementById('info'); box.style.display = 'block'; document.getElementById('in').innerHTML = `<span style="color:${a.tag};text-shadow:0 0 10px ${a.tag}">${a.name}</span>`; document.getElementById('ir').textContent = a.role; document.getElementById('ik').innerHTML = `<div><span>狀態</span>${ST_LABEL[a.state]}</div><div><span>任務</span>${a.status || '—'}</div><div><span>訊息</span>${a.bubble || '—'}</div><div><span>位置</span>${spotName(a.spot)}</div><div><span>來源</span>${a.live ? 'status.json' : '模擬'}</div>`; }
+function showInfo() { const a = agents[selected]; const box = document.getElementById('info'); box.style.display = 'block'; document.getElementById('in').innerHTML = `<span style="color:${a.tag};text-shadow:0 0 10px ${a.tag}">${a.name}</span>`; document.getElementById('ir').textContent = a.role; document.getElementById('ik').innerHTML = `<div><span>狀態</span>${ST_LABEL[a.state]||a.state}</div><div><span>更新</span>${a.updatedAt || '—'}</div><div><span>位置</span>${spotName(a.spot)}</div><div><span>來源</span>${a.live ? 'status.json（公開僅狀態）' : '模擬'}</div><div style="opacity:.55;font-size:11px;margin-top:6px">任務細節只在本機完整狀態頁</div>`; }
 function spotName(s) { return s.startsWith('desk') ? '開放辦公區' : s.startsWith('meet') ? '會議桌' : s.startsWith('pantry') ? '茶水間' : s.startsWith('lounge') ? 'Bauhaus 休憩區' : s.startsWith('display') || s.startsWith('sofa') ? '展示區' : s === 'stone' ? '私人辦公室' : s === 'xiaoR' ? '秘書台' : s === 'xiaomi' ? '經理站立桌' : s; }
 document.getElementById('ix').onclick = () => { document.getElementById('info').style.display = 'none'; selected = null; };
 const ray = new THREE.Raycaster(), mouse = new THREE.Vector2(); let down = null;
@@ -820,6 +843,25 @@ addEventListener('resize', () => { camera.aspect = innerWidth / innerHeight; cam
 // ---------- loop ----------
 updateSky(); setInterval(updateSky, 30000);
 agents.forEach(a => { a.bubble = SIM_BUBBLES.working[Math.floor(Math.random() * 8)]; a.simUntil = 4 + Math.random() * 10; });
+
+// ---------- routines (static) ----------
+let ROUTINES = [];
+async function loadRoutines() {
+  try {
+    const r = await fetch('./routines.json?t=' + Date.now(), { cache: 'no-store' });
+    if (!r.ok) return;
+    const j = await r.json();
+    ROUTINES = j.routines || [];
+    const el = document.getElementById('rtrows');
+    if (!el) return;
+    el.innerHTML = ROUTINES.map(rt => {
+      const pending = (rt.name === '待填' || rt.schedule === '待填');
+      return `<div class="rt"><span class="bn" style="color:${(AG.find(a=>a.key===rt.bot)||{}).tag||'#aaa'}">${rt.bot}</span>${rt.name} <span class="st">· ${rt.schedule} · ${rt.state}</span>${pending?' <span style="opacity:.45">待填</span>':''}</div>`;
+    }).join('');
+  } catch {}
+}
+loadRoutines();
+
 refreshUI(); poll(); setInterval(poll, 60000);
 if (Q.has('zone')) goZone(+Q.get('zone'));
 const clock = new THREE.Clock(); let el = 0;

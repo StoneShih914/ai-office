@@ -1,0 +1,10 @@
+# OS / editor
+.DS_Store
+*.swp
+*~
+
+# private status must NEVER be published from this repo
+# (canonical private store is /home/box/ai-status/)
+full.json
+status.jsonl
+ai-status/
