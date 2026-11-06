@@ -414,9 +414,6 @@ box(1.8, 0.9, 0.45, M(0x3a3a3e, 0.6), 13.8, 0.45, -8.4); // credenza
 // 小R 秘書台
 { const g = new THREE.Group(); g.position.set(6.2, 0, -1.7); scene.add(g); const m = M(MOR.rose, 0.6); box(1.6, 1.05, 0.12, m, 0, 0.53, 0.38, g); box(1.6, 0.04, 0.65, M(MOR.white, 0.4), 0, 0.76, 0.05, g); box(1.7, 0.04, 0.2, M(0xd8c9b0, 0.3, 0.3), 0, 1.07, 0.38, g); blob(6.2, -1.7, 2.2, 1.4); }
 monitor(6.2, 0.78, -1.75, 0); chair(6.2, -2.35, 0); seatAt('xiaoR', 6.2, -2.3, 0, 'seat', [[5.0, -0.3], [5.0, -2.4]]);
-// 小米 standing desk
-desk(1.5, -5.6, Math.PI, 1.4, 0.7, MOR.sage).position.y = 0.32; monitor(1.5, 1.08, -5.75, 0, scene, scrMats[1]);
-seatAt('xiaomi', 1.5, -5.0, Math.PI, 'stand');
 // meeting table
 { const g = new THREE.Group(); g.position.set(-3, 0, -5.6); scene.add(g); const top = add(new THREE.CylinderGeometry(1, 1, 0.06, 48), M(0xc9c2b8, 0.3), 0, 0.75, 0, g); top.scale.set(2.1, 1, 0.8); cyl(0.08, 0.2, 0.72, M(0x333, 0.3, 0.9), -1.2, 0.36, 0, g); cyl(0.08, 0.2, 0.72, M(0x333, 0.3, 0.9), 1.2, 0.36, 0, g); blob(-3, -5.6, 5.2, 2.6); }
 const meetSeats = [];
@@ -559,7 +556,6 @@ neonEdge(-15, 9.02, 15, 9.02, 0x22f3ff); neonEdge(15.02, -9, 15.02, 9, 0xff2fb0)
 // ---------- characters ----------
 const AG = [
   { key: 'Stone', name: 'Stone', role: '老闆 · 強尼銀手風', tag: '#ffd23a', desk: 'stone', look: { skin: 0xd9a483, hair: 0x1a1410, hs: 'slick', top: 0x1b1b1d, jacket: 0x262628, pants: 0x2a2a30, shoes: 0x1a1a1a, aviators: true, silverArm: true, beard: true } },
-  { key: '小米', name: '小米', role: '經理 · 蘿格風', tag: '#ff9de2', desk: 'xiaomi', look: { skin: 0xe8c0a0, hair: 0xe4d6b8, hs: 'bob', top: 0x2e2a26, jacket: 0x1f1c1a, trim: 0xc9a14a, pants: 0x221f1d, shoes: 0x3a2a20, clipboard: true, female: true } },
   { key: '小R', name: '小R', role: '秘書 · 茱蒂風', tag: '#ff5fa2', desk: 'xiaoR', look: { skin: 0xeec4a5, hair: 0x5a3a28, tip: 0x2fd6c6, hs: 'undercut', top: 0x3a6f8e, jacket: null, pants: 0x4b4a55, shoes: 0x222, female: true } },
   { key: '百靈鳥', name: '百靈鳥', role: '研究 · 奧特風', tag: '#4ff3ff', desk: 'desk0', look: { skin: 0xf0d6c4, hair: 0xf4f4f8, hs: 'long', top: 0x111116, jacket: null, pants: 0x111116, shoes: 0x111, glowLines: 0x4ff3ff, female: true } },
   { key: '寫哥', name: '寫哥', role: '寫作 · V 風（武士夾克）', tag: '#ffe14d', desk: 'desk1', look: { skin: 0xdcae8c, hair: 0x241a14, hs: 'short', top: 0x222, jacket: 0x141414, collar: 0xe8c43a, samurai: true, pants: 0x232330, shoes: 0x222 } },
@@ -584,7 +580,6 @@ function uvBox(part, gh, hs, scale = 1) {
 }
 const LOOKS = {
   Stone: { skin: '#d9a483', hair: '#17120e', top: '#1b1b1d', sleeve: null, pants: '#2a2a30', shoes: '#141414' },
-  '小米': { skin: '#efc9a8', hair: '#eadfc4', top: '#1f1c1a', sleeve: '#1f1c1a', pants: '#1b1918', shoes: '#4a3020' },
   '小R': { skin: '#f0c7a8', hair: '#5a3a28', top: '#3a6f8e', sleeve: null, pants: '#4b4a5a', shoes: '#222' },
   '百靈鳥': { skin: '#f3dccd', hair: '#f4f4f8', top: '#111116', sleeve: '#111116', pants: '#111116', shoes: '#0c0c0c' },
   '寫哥': { skin: '#dcae8c', hair: '#241a14', top: '#141414', sleeve: '#141414', pants: '#232330', shoes: '#222' },
@@ -620,9 +615,6 @@ function paintSkin(key) {
       P('body', 'front', 1, 0, 6, 12, '#1b1b1d'); P('body', 'front', 3, 0, 2, 5, '#3a3a40'); P('body', 'front', 3, 3, 1, 1, '#c8c8c8'); P('body', 'front', 0, 9, 8, 1, '#4a3a2a');
       { const r = regs(...PARTS.larm); for (const k in r) R(...r[k], '#c3c8d0'); for (let y = 2; y < 12; y += 3) sides('larm', y, 1, '#7d838d'); sides('larm', 0, 2, '#a01a20'); }
       sides('rarm', 4, 1, '#3a5a5a'); P('rarm', 'front', 1, 6, 2, 2, '#3a5a5a'); break;
-    case '小米': face('#3a6aa0'); P('head', 'front', 3, 6, 2, 1, '#b02838'); P('head', 'left', 0, 0, 8, 6, hc); P('head', 'right', 0, 0, 8, 6, hc); P('head', 'front', 0, 2, 1, 4, hc); P('head', 'front', 7, 2, 1, 4, hc); P('head', 'back', 0, 0, 8, 8, hc);
-      ['left', 'right', 'back'].forEach(f => P('hat', f, 0, 1, 8, 6, hc)); P('hat', 'top', 0, 0, 8, 8, hc); P('hat', 'front', 0, 0, 8, 1, hc);
-      P('body', 'front', 2, 0, 1, 12, '#c9a14a'); P('body', 'front', 5, 0, 1, 12, '#c9a14a'); P('body', 'front', 0, 0, 8, 1, '#c9a14a'); sides('rarm', 10, 1, '#c9a14a'); sides('larm', 10, 1, '#c9a14a'); break;
     case '小R': face('#3a2a20'); P('head', 'right', 0, 1, 8, 7, '#6b4a3a55'); P('head', 'left', 0, 0, 8, 6, hc); P('head', 'top', 1, 0, 2, 8, '#2fd6c6'); P('head', 'top', 5, 0, 2, 8, '#ff5fa2'); P('head', 'front', 4, 0, 4, 3, hc); P('head', 'front', 5, 2, 2, 1, '#ff5fa2'); P('head', 'front', 1, 1, 2, 1, '#2fd6c6');
       P('hat', 'left', 0, 2, 8, 5, hc); P('hat', 'left', 2, 5, 3, 2, '#ff5fa2'); P('hat', 'back', 4, 1, 4, 6, hc);
       P('body', 'front', 0, 0, 8, 12, '#3a6f8e'); P('body', 'front', 1, 0, 1, 4, '#cfcfd8'); P('body', 'front', 6, 0, 1, 4, '#cfcfd8'); P('body', 'front', 0, 4, 8, 8, '#5a6a8a'); P('body', 'front', 3, 6, 2, 2, '#8a96b0');
@@ -678,7 +670,6 @@ function buildChar(a) {
     const part = s < 0 ? 'rarm' : 'larm';
     const sh = new THREE.Group(); sh.position.set(s * 6 * PX, 10 * PX, 0); chest.add(sh); mesh(uvBox(part, 6, 0), sh, -1 * PX);
     const el = new THREE.Group(); el.position.y = -4 * PX; sh.add(el); mesh(uvBox(part, 6, 6), el, -3 * PX);
-    if (a.key === '小米' && s === -1) { const cb = box(0.2, 0.27, 0.014, M(0x6b4a2a, 0.6), 0, -5 * PX, 0.12, el); cb.rotation.x = -1.2; box(0.16, 0.2, 0.004, M(0xf5f2ea, 0.8), 0, 0.01, 0.01, cb, false); }
     arm[s] = { sh, el };
   }
   const contact = blob(0, 0, 0.8, 0.8, root); contact.position.y = 0.014;
@@ -722,7 +713,7 @@ function animate(ag, dt, t) {
   const r = ag.rig, root = r.root; const T = t + ag.phase; const k = Math.min(1, dt * 8);
   if (ag.mode === 'walk') {
     const [tx, tz] = ag.path[0]; const dx = tx - root.position.x, dz = tz - root.position.z; const d = Math.hypot(dx, dz);
-    if (d < 0.05) { ag.path.shift(); if (!ag.path.length) { const sp = SPOT[ag.spot]; ag.mode = sp.type === 'stand' ? 'stand' : 'sit'; if (ag.key === '小米' && ag.state === 'working' && ag.spot === 'xiaomi') ag.mode = 'stand'; } }
+    if (d < 0.05) { ag.path.shift(); if (!ag.path.length) { const sp = SPOT[ag.spot]; ag.mode = sp.type === 'stand' ? 'stand' : 'sit'; } }
     else { const st = Math.min(d, ag.spd * dt); root.position.x += dx / d * st; root.position.z += dz / d * st; const yaw = Math.atan2(dx, dz); let dy = yaw - root.rotation.y; dy = Math.atan2(Math.sin(dy), Math.cos(dy)); root.rotation.y += dy * Math.min(1, dt * 10); }
     const w = T * 7.5; const sw = Math.sin(w);
     for (const s of [-1, 1]) { lerpA(r.leg[s].th.rotation, 'x', sw * 0.55 * s, k); lerpA(r.leg[s].kn.rotation, 'x', Math.max(0, Math.sin(w * s + 1.2 * s)) * 0.9 * 0.9 + 0.08, k); lerpA(r.arm[s].sh.rotation, 'x', -sw * 0.45 * s, k); lerpA(r.arm[s].el.rotation, 'x', -0.35, k); lerpA(r.arm[s].sh.rotation, 'z', s * 0.06, k); }
@@ -747,21 +738,16 @@ function animate(ag, dt, t) {
   } else { // stand / idle
     lerpA(r.hips.position, 'y', HIPY + Math.sin(T * 1.6) * 0.004, k);
     for (const s of [-1, 1]) { lerpA(r.leg[s].th.rotation, 'x', 0, k); lerpA(r.leg[s].kn.rotation, 'x', 0.03, k); }
-    const clip = ag.key === '小米';
+    const clip = false;
     for (const s of [-1, 1]) {
       if (clip && s === -1) { lerpA(r.arm[s].sh.rotation, 'x', -0.35, k); lerpA(r.arm[s].el.rotation, 'x', -1.1, k); }
       else if (sp.type === 'stand' && ag.spot.startsWith('pantry') && s === 1) { lerpA(r.arm[s].sh.rotation, 'x', -0.3, k); lerpA(r.arm[s].el.rotation, 'x', -1.6 + Math.max(0, Math.sin(T * 0.6)) * -0.3, k); }
-      else if (ag.spot === 'xiaomi' && s === 1) { lerpA(r.arm[s].sh.rotation, 'x', -0.6 + Math.sin(T * 12) * 0.05, k); lerpA(r.arm[s].el.rotation, 'x', -0.9, k); }
       else { lerpA(r.arm[s].sh.rotation, 'x', Math.sin(T * 1.2 + s) * 0.04, k); lerpA(r.arm[s].el.rotation, 'x', -0.12, k); }
       lerpA(r.arm[s].sh.rotation, 'z', s * 0.07, k);
     }
     lerpA(r.spine.rotation, 'x', 0, k); r.head.rotation.y = Math.sin(T * 0.35) * 0.45; r.head.rotation.x = Math.sin(T * 0.5) * 0.05;
   }
 }
-// 小米 patrol while working
-const PATROL = [[-0.4, 0.4], [-8.2, 0.4], [-8.2, 4.4], [0.3, 4.4], [0.3, -0.3], [4.5, -0.3]];
-let patrolNext = 20;
-
 // ---------- status: ./status.json every 60s, fallback simulation ----------
 let live = false;
 async function poll() {
@@ -788,7 +774,7 @@ async function poll() {
 }
 let bigTaskUntil = 0;
 function simulate(t) {
-  if (t > bigTaskUntil + 70 && Math.random() < 0.002) { bigTaskUntil = t + 30; agents.forEach(ag => { if (!ag.live && ['Stone', '小米', '大投', '財財', 'Fellow', '寫哥'].includes(ag.key)) { ag.simUntil = t + 30; ag.status = '大任務：GaN 產品線策略'; ag.bubble = '討論大任務'; applyState(ag, 'meeting'); } }); refreshUI(); }
+  if (t > bigTaskUntil + 70 && Math.random() < 0.002) { bigTaskUntil = t + 30; agents.forEach(ag => { if (!ag.live && ['Stone', '大投', '財財', 'Fellow', '寫哥'].includes(ag.key)) { ag.simUntil = t + 30; ag.status = '大任務：GaN 產品線策略'; ag.bubble = '討論大任務'; applyState(ag, 'meeting'); } }); refreshUI(); }
   agents.forEach(ag => {
     if (ag.live || t < ag.simUntil) return;
     const st = Math.random() < (ag.key === 'Stone' ? 0.8 : 0.68) ? 'working' : 'idle';
@@ -822,7 +808,7 @@ function goZone(i) { const [, p, t] = ZONES[i]; fly = { t0: performance.now(), p
 let selected = null;
 function select(i) { selected = i; showInfo(); const a = agents[i]; const p = a.rig.root.position; fly = { t0: performance.now(), p0: camera.position.clone(), q0: controls.target.clone(), p1: new THREE.Vector3(p.x + 3, 2.8, p.z + 3.5), q1: new THREE.Vector3(p.x, 1, p.z) }; }
 function showInfo() { const a = agents[selected]; const box = document.getElementById('info'); box.style.display = 'block'; document.getElementById('in').innerHTML = `<span style="color:${a.tag};text-shadow:0 0 10px ${a.tag}">${a.name}</span>`; document.getElementById('ir').textContent = a.role; document.getElementById('ik').innerHTML = `<div><span>狀態</span>${ST_LABEL[a.state]||a.state}</div><div><span>更新</span>${a.updatedAt || '—'}</div><div><span>位置</span>${spotName(a.spot)}</div><div><span>來源</span>${a.live ? 'status.json（公開僅狀態）' : '模擬'}</div><div style="opacity:.55;font-size:11px;margin-top:6px">任務細節只在本機完整狀態頁</div>`; }
-function spotName(s) { return s.startsWith('desk') ? '開放辦公區' : s.startsWith('meet') ? '會議桌' : s.startsWith('pantry') ? '茶水間' : s.startsWith('lounge') ? 'Bauhaus 休憩區' : s.startsWith('display') || s.startsWith('sofa') ? '展示區' : s === 'stone' ? '私人辦公室' : s === 'xiaoR' ? '秘書台' : s === 'xiaomi' ? '經理站立桌' : s; }
+function spotName(s) { return s.startsWith('desk') ? '開放辦公區' : s.startsWith('meet') ? '會議桌' : s.startsWith('pantry') ? '茶水間' : s.startsWith('lounge') ? 'Bauhaus 休憩區' : s.startsWith('display') || s.startsWith('sofa') ? '展示區' : s === 'stone' ? '私人辦公室' : s === 'xiaoR' ? '秘書台' : s; }
 document.getElementById('ix').onclick = () => { document.getElementById('info').style.display = 'none'; selected = null; };
 const ray = new THREE.Raycaster(), mouse = new THREE.Vector2(); let down = null;
 renderer.domElement.addEventListener('pointerdown', e => down = [e.clientX, e.clientY]);
@@ -855,7 +841,7 @@ async function loadRoutines() {
     const el = document.getElementById('rtrows');
     if (!el) return;
     el.innerHTML = ROUTINES.map(rt => {
-      const pending = (rt.name === '待填' || rt.schedule === '待填');
+      const pending = (rt.name === '待填' || rt.name === '未確認' || rt.schedule === '待填' || rt.schedule === '未確認');
       return `<div class="rt"><span class="bn" style="color:${(AG.find(a=>a.key===rt.bot)||{}).tag||'#aaa'}">${rt.bot}</span>${rt.name} <span class="st">· ${rt.schedule} · ${rt.state}</span>${pending?' <span style="opacity:.45">待填</span>':''}</div>`;
     }).join('');
   } catch {}
@@ -870,8 +856,6 @@ function frame() {
   if (fly) { const u = Math.min(1, (performance.now() - fly.t0) / 1600), e = u < .5 ? 4 * u * u * u : 1 - Math.pow(-2 * u + 2, 3) / 2; camera.position.lerpVectors(fly.p0, fly.p1, e); controls.target.lerpVectors(fly.q0, fly.q1, e); if (u >= 1) fly = null; }
   controls.update();
   if (!SHOT) simulate(el);
-  const xm = agents[1];
-  if (!xm.live && xm.state === 'working' && el > patrolNext && xm.mode !== 'walk') { patrolNext = el + 40; occupied.delete(xm.spot); xm.path = PATROL.concat([[1.5, -5.0]]).map(p => p.slice()); xm.mode = 'walk'; xm.spot = 'xiaomi'; occupied.add('xiaomi'); }
   agents.forEach(a => animate(a, dt, el));
   updateCars(dt, el); updateSignals(el); if ((el * 12 | 0) !== (window.__lf || 0)) { window.__lf = el * 12 | 0; drawLED(el); } updateSteam(dt, el);
   holoHead.rotation.y += dt * 0.3; holoFig.rotation.y -= dt * 0.15; holoHead.children.forEach(c => c.material.opacity = 0.55 + Math.sin(el * 13) * 0.08 + (Math.random() < 0.02 ? -0.4 : 0));

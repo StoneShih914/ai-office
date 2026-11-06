@@ -1,16 +1,90 @@
 {
-  "updatedAt": "2026-11-07T01:31:00+08:00",
-  "note": "靜態表；未知項標「待填」。由秘書-小R 維護。",
+  "updatedAt": "2026-11-07T01:44:49+08:00",
+  "note": "靜態表；由秘書-小R 維護。未確認／無 請勿當成待執行。",
   "routines": [
-    { "bot": "百靈鳥", "name": "AI 辦公室狀態同步", "schedule": "@every 30m", "state": "已暫停", "note": "paused；結果應改送小R" },
-    { "bot": "小R", "name": "待填", "schedule": "待填", "state": "待填", "note": "待填" },
-    { "bot": "寫哥", "name": "待填", "schedule": "待填", "state": "待填", "note": "待填" },
-    { "bot": "大投", "name": "待填", "schedule": "待填", "state": "待填", "note": "待填" },
-    { "bot": "財財", "name": "待填", "schedule": "待填", "state": "待填", "note": "待填" },
-    { "bot": "大E", "name": "待填", "schedule": "待填", "state": "待填", "note": "待填" },
-    { "bot": "小米", "name": "待填", "schedule": "待填", "state": "待填", "note": "待填" },
-    { "bot": "Fellow", "name": "待填", "schedule": "待填", "state": "待填", "note": "待填" },
-    { "bot": "URAKAKERA", "name": "待填", "schedule": "待填", "state": "待填", "note": "待填" },
-    { "bot": "dr eggbot", "name": "待填", "schedule": "待填", "state": "待填", "note": "待填" }
+    {
+      "bot": "小R",
+      "name": "收件匣清理與總覽面板同步",
+      "schedule": "每週一 09:00",
+      "state": "啟用",
+      "note": ""
+    },
+    {
+      "bot": "大投",
+      "name": "持股日報",
+      "schedule": "平日 08:30",
+      "state": "啟用",
+      "note": ""
+    },
+    {
+      "bot": "大投",
+      "name": "月度損益",
+      "schedule": "每月 1 日",
+      "state": "啟用",
+      "note": ""
+    },
+    {
+      "bot": "大投",
+      "name": "課程",
+      "schedule": "週一至六 20:30",
+      "state": "啟用",
+      "note": ""
+    },
+    {
+      "bot": "大投",
+      "name": "曼報重點",
+      "schedule": "週六 09:00",
+      "state": "啟用",
+      "note": ""
+    },
+    {
+      "bot": "財財",
+      "name": "信用卡帳單",
+      "schedule": "每月 22 日 09:00",
+      "state": "啟用",
+      "note": ""
+    },
+    {
+      "bot": "寫哥",
+      "name": "無",
+      "schedule": "—",
+      "state": "無",
+      "note": ""
+    },
+    {
+      "bot": "百靈鳥",
+      "name": "AI 辦公室狀態同步",
+      "schedule": "@every 30m",
+      "state": "已暫停",
+      "note": "paused；結果應改送小R"
+    },
+    {
+      "bot": "Fellow",
+      "name": "未確認",
+      "schedule": "未確認",
+      "state": "未確認",
+      "note": ""
+    },
+    {
+      "bot": "大E",
+      "name": "未確認",
+      "schedule": "未確認",
+      "state": "未確認",
+      "note": ""
+    },
+    {
+      "bot": "URAKAKERA",
+      "name": "未確認",
+      "schedule": "未確認",
+      "state": "未確認",
+      "note": ""
+    },
+    {
+      "bot": "dr eggbot",
+      "name": "未確認",
+      "schedule": "未確認",
+      "state": "未確認",
+      "note": ""
+    }
   ]
 }
